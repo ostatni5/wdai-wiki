@@ -1,0 +1,162 @@
+[
+    {
+        "index": 0,
+        "guid": "987307c8-da0a-4539-8865-87a9cc9688c1",
+        "name": "quis aliqua",
+        "host": {
+            "firstName": "Bell",
+            "lastName": "Schwartz"
+        },
+        "ETCS": 5,
+        "semester": 3,
+        "type": "projects",
+        "capacity": 116,
+        "rating": 3.9055,
+        "votes": 56,
+        "image": "assets/img/2.png"
+    },
+    {
+        "index": 1,
+        "guid": "dafaedfa-0488-43a2-b96c-729123ae329f",
+        "name": "veniam reprehenderit",
+        "host": {
+            "firstName": "Aisha",
+            "lastName": "Mcclure"
+        },
+        "ETCS": 5,
+        "semester": 3,
+        "type": "lecture",
+        "capacity": 146,
+        "rating": 4.3981,
+        "votes": 64,
+        "image": "assets/img/3.png"
+    },
+    {
+        "index": 2,
+        "guid": "aadadd3c-55d0-4aa1-bc40-a1082b2baf9d",
+        "name": "aliquip nostrud",
+        "host": {
+            "firstName": "Terry",
+            "lastName": "Wall"
+        },
+        "ETCS": 8,
+        "semester": 3,
+        "type": "exercises",
+        "capacity": 212,
+        "rating": 3.86,
+        "votes": 57,
+        "image": "assets/img/3.png"
+    },
+    {
+        "index": 3,
+        "guid": "c63f6bc4-f3bb-491d-a6ad-44b87e0dccef",
+        "name": "elit Lorem",
+        "host": {
+            "firstName": "Craig",
+            "lastName": "Powers"
+        },
+        "ETCS": 10,
+        "semester": 2,
+        "type": "exercises",
+        "capacity": 119,
+        "rating": 3.8153,
+        "votes": 80,
+        "image": "assets/img/2.png"
+    },
+    {
+        "index": 4,
+        "guid": "3f9f6a57-7205-4cec-85c0-d9e23036a68b",
+        "name": "nulla fugiat",
+        "host": {
+            "firstName": "Butler",
+            "lastName": "Pacheco"
+        },
+        "ETCS": 10,
+        "semester": 4,
+        "type": "labs",
+        "capacity": 106,
+        "rating": 3.0667,
+        "votes": 56,
+        "image": "assets/img/3.png"
+    },
+    {
+        "index": 5,
+        "guid": "638053b3-85ec-4a18-adf9-5f32ee0afd1d",
+        "name": "nisi deserunt",
+        "host": {
+            "firstName": "Alexis",
+            "lastName": "Greene"
+        },
+        "ETCS": 8,
+        "semester": 3,
+        "type": "projects",
+        "capacity": 88,
+        "rating": 2.9368,
+        "votes": 26,
+        "image": "assets/img/3.png"
+    },
+    {
+        "index": 6,
+        "guid": "862b2841-132a-4eff-884f-92aa48feaa6f",
+        "name": "ut ullamco",
+        "host": {
+            "firstName": "Howell",
+            "lastName": "Hobbs"
+        },
+        "ETCS": 1,
+        "semester": 7,
+        "type": "labs",
+        "capacity": 140,
+        "rating": 2.1328,
+        "votes": 27,
+        "image": "assets/img/2.png"
+    },
+    {
+        "index": 7,
+        "guid": "aae11c92-cae2-4956-9057-0fed54692348",
+        "name": "pariatur reprehenderit",
+        "host": {
+            "firstName": "Evangelina",
+            "lastName": "Moore"
+        },
+        "ETCS": 3,
+        "semester": 7,
+        "type": "labs",
+        "capacity": 175,
+        "rating": 1.955,
+        "votes": 38,
+        "image": "assets/img/3.png"
+    },
+    {
+        "index": 8,
+        "guid": "119175a4-2d9a-45af-b541-641b61c80d71",
+        "name": "labore aute",
+        "host": {
+            "firstName": "Rush",
+            "lastName": "Stephens"
+        },
+        "ETCS": 2,
+        "semester": 1,
+        "type": "projects",
+        "capacity": 73,
+        "rating": 2.676,
+        "votes": 50,
+        "image": "assets/img/2.png"
+    },
+    {
+        "index": 9,
+        "guid": "12de6b5b-f3df-4d07-b1b7-89ecd5081d15",
+        "name": "velit tempor",
+        "host": {
+            "firstName": "Casey",
+            "lastName": "Battle"
+        },
+        "ETCS": 2,
+        "semester": 1,
+        "type": "labs",
+        "capacity": 103,
+        "rating": 3.8073,
+        "votes": 30,
+        "image": "assets/img/2.png"
+    }
+]
