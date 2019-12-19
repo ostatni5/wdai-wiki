@@ -2,3 +2,7 @@
 {
     background-color: rgba($color: #000, $alpha: .1);
 }
+.mat-list-item:nth-child(2n+1)
+{
+    background-color: rgba(223, 55, 223, 0.171);
+}
