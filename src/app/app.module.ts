@@ -8,18 +8,29 @@ import { CoursesListComponent } from './components/courses-list/courses-list.com
 import { CoursesListElementComponent } from './components/courses-list-element/courses-list-element.component';
 import {MatListModule} from '@angular/material/list'
 import { CoursesService } from './services/courses.service';
+import { RateComponent } from './components/rate/rate.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddCourseComponent } from './components/add-course/add-course.component';
+import { SearchPipe } from './pipes/search.pipe';
+import { FilterComponent } from './components/filter/filter.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CoursesListComponent,
-    CoursesListElementComponent
+    CoursesListElementComponent,
+    RateComponent,
+    AddCourseComponent,
+    SearchPipe,
+    FilterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatListModule
+    MatListModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [CoursesService],
   bootstrap: [AppComponent]

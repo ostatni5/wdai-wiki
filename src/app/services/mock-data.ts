@@ -16,7 +16,7 @@ export class MockData{
             "capacity": 116,
             "rating": 3.9055,
             "votes": 56,
-            "image": "assets/img/2.png"
+            "image": "assets/img/1.png"
         },
         {
             "index": 1,
@@ -48,7 +48,7 @@ export class MockData{
             "capacity": 212,
             "rating": 3.86,
             "votes": 57,
-            "image": "assets/img/3.png"
+            "image": "assets/img/1.png"
         },
         {
             "index": 3,
@@ -96,7 +96,7 @@ export class MockData{
             "capacity": 88,
             "rating": 2.9368,
             "votes": 26,
-            "image": "assets/img/3.png"
+            "image": "assets/img/1.png"
         },
         {
             "index": 6,

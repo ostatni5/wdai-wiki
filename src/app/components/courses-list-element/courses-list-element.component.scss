@@ -1,0 +1,31 @@
+img{
+    width: 300px;
+    object-fit: contain;
+}
+.detalis{
+    display: flex;
+    margin-bottom: 50px;
+    justify-content: space-between;
+}
+.detalis-text{
+   margin-left: 50px;
+}
+.actions{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+:host{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+:host:nth-child(2n)
+{
+    background-color: rgba($color: #000, $alpha: .1);
+}
+:host:nth-child(2n+1)
+{
+    background-color: rgba(223, 55, 223, 0.171);
+}

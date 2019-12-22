@@ -5,22 +5,28 @@ import { MockData } from './mock-data';
   providedIn: 'root'
 })
 export class CoursesService {
-  constructor() { 
-    
+  private courses
+  constructor() {
+    this.courses = new MockData().Courses as Array<Course>
   }
 
-  getCourses(): Array<Course>{
-    return new MockData().Courses as Array<Course>;
+  getCourses(): Array<Course> {
+    return this.courses;
   }
-  getCourse(): Course{
-    return ;
+  getCourse(guid): Course {
+    return  this.courses.filter(course => course.guid == guid)[0];
   }
-  addCourse(){
-    
+  addCourse(course:Course) {
+    this.courses.unshift(course);
   }
-  deleteCourse(){
-    
+  deleteCourse(guid) {  
+    this.courses=this.courses.filter(course=>course.guid != guid);
+   
   }
-
+  rateCourse(obj){
+    console.log(obj)
+    let c =this.getCourse(obj.guid);
+    c.rating= ((c.rating*c.votes)+obj.value)/++c.votes;
+  }
 
 }

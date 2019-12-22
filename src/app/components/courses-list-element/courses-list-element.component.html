@@ -1,1 +1,19 @@
-<p>{{course.name}} </p>
+
+<h2>{{course.name | titlecase }}</h2>
+<Div class="detalis">
+  <img class="detalis-image" [src]="course.image" alt="imagefor course">
+  <div class="detalis-text">
+    <p>Host: {{course.host.firstName +" "+course.host.lastName}}</p>
+    <p>ETCS: {{course.ETCS}}</p>
+    <p>Semester: {{course.semester}}</p>
+    <p>Type: {{course.type}}</p>
+    <p>Capacity: {{course.capacity}}</p>
+    <p>Rating: {{course.rating}}</p>
+    <p>Votes: {{course.votes}}</p>
+  </div>
+  <div class="actions">
+    <button (click)="delete()">Delete</button>
+    <app-rate [initValue]="course.rating" (rated)="rate($event)"></app-rate>
+
+  </div>
+</Div>

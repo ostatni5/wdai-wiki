@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CoursesService } from 'src/app/services/courses.service';
 import { Course } from 'src/app/shared/course.model';
+import { Filter } from 'src/app/shared/filter';
 
 @Component({
   selector: 'app-courses-list',
@@ -9,14 +10,36 @@ import { Course } from 'src/app/shared/course.model';
 })
 export class CoursesListComponent implements OnInit {
   courses:Array<Course>
-  constructor(private coursesService: CoursesService) {
-    this.courses= coursesService.getCourses();
-    console.log(this.courses);
-    console.log(this.courses[0].host);
-    console.log(this.courses[0].type);
+  filter:Filter
+  constructor(private coursesService: CoursesService) {    
    }
 
-  ngOnInit() {
+  ngOnInit() {  
+    this.getCourses();    
+  } 
+
+  getCourses(){
+    this.courses= this.coursesService.getCourses(); 
+  }
+  addCourse(course:Course)
+  {
+    this.coursesService.addCourse(course);
+    this.getCourses();
+  }
+  deleteCourse(guid)
+  {
+    this.coursesService.deleteCourse(guid);
+    this.getCourses();
+  }
+  rateCourse(obj)
+  {
+    this.coursesService.rateCourse(obj);
+    this.getCourses();
+  }
+  searchCourse(obj:Filter)
+  {
+    this.filter=obj;
+    console.log(this.filter);
   }
 
 }

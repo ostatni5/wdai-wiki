@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Course } from 'src/app/shared/course.model';
 
 @Component({
@@ -8,8 +8,17 @@ import { Course } from 'src/app/shared/course.model';
 })
 export class CoursesListElementComponent implements OnInit {
   @Input() course: Course;
+  @Output() deleteCourse = new EventEmitter<string>();
+  @Output() rateCourse = new EventEmitter<object>();
   constructor() { }
   ngOnInit() {
+  }
+  delete(){
+    this.deleteCourse.emit(this.course.guid);
+  }
+  rate(value){
+    console.log(value)
+    this.rateCourse.emit({value:value,guid:this.course.guid});
   }
 
 }
