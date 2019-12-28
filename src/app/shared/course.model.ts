@@ -13,6 +13,7 @@ export class Course {
     rating: number
     votes: number
     image: string
+    registeredUsers:Array<{email,vote}>
     constructor(obj?) {
         this.index=-1;
         this.guid= this.uuidv4();

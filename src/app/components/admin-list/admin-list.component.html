@@ -1,0 +1,9 @@
+<app-add-course (addCourse)="addCourse($event)"></app-add-course>
+
+<h2>ADMIN List of courses</h2>
+<app-filter (searchCourse)="searchCourse($event)"></app-filter>
+<div class="list">
+   <app-courses-list-element [admin]="true" class="element"  *ngFor="let course of courses | search:filter " [course]="course" (deleteCourse)="deleteCourse($event)"  (rateCourse)="rateCourse($event)"></app-courses-list-element> 
+</div>
+
+ 

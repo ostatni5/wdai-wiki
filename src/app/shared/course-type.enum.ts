@@ -3,6 +3,5 @@ export enum CourseType {
     exercises='exercises',
     labs='labs',
     projects='projects',
-    
 
 }

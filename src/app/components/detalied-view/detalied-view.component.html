@@ -1,0 +1,21 @@
+<h2>{{course.name | titlecase }}</h2>
+<Div class="detalis">
+  <img class="detalis-image" [src]="course.image" alt="imagefor course">
+  <div class="detalis-text">
+    <p>Host: {{course.host.firstName +" "+course.host.lastName}}</p>
+    <p>ETCS: {{course.ETCS}}</p>
+    <p>Semester: {{course.semester}}</p>
+    <p>Type: {{course.type}}</p>
+    <p>Capacity: {{course.capacity}}</p>
+    <p>Rating: {{course.rating}}</p>
+    <p>Votes: {{course.votes}}</p>
+  </div>
+  <div class="actions">
+    <button *ngIf="!registerd && course.capacity > 0" (click)="registerOn()">Register</button>
+    <app-rate *ngIf="registerd" [initValue]="course.rating" (rated)="rate($event)" [showRate]="!voted"></app-rate>
+  </div>
+</Div>
+<a [routerLink]="['/dashboard']">BACK</a>
+<div>
+  
+</div>

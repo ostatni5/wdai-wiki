@@ -1,0 +1,33 @@
+form{
+    display: flex;
+    justify-content:space-evenly;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    margin:0 auto ;
+}
+label{
+    padding: 10px;
+    display: flex;
+    width: 250px;
+    justify-content:space-between;
+}
+input{
+    width: 150px;
+}
+select{
+    width: 156px;
+}
+[type="submit"]{
+    
+   
+    height: 30px;
+    
+}
+.button{
+    display: flex;
+    justify-content: center;
+    flex-basis: 100%;
+}
+.ng-valid[required], .ng-valid.required  {
+    border-left: 5px solid #42A948; /* green */
+  }

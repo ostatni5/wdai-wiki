@@ -1,5 +1,5 @@
-<h2>Add course</h2>
-<form ngNativeValidate [formGroup]="addCourseForm" (submit)="onSubmit()">
+<h2>Edit course</h2>
+<form ngNativeValidate [formGroup]="editCourseForm" (submit)="onSubmit()">
   <label>Name: <input type="text" formControlName="name" required></label>
   <label>FirstName: <input type="text" formControlName="hostFirstName" required></label>
   <label>LastName: <input type="text" formControlName="hostLastName" required> </label>
@@ -11,9 +11,9 @@
     </select>
   </label>
   <label>Capacity: <input type="number" formControlName="capacity" required min="1" max="250"></label>
-  <label>Image: <input type="url" formControlName="image" required></label>
+  <label>Image: <input type="text" formControlName="image" required></label>
   <div class="button">
-    <input type="submit" value="ADD">
+    <input type="submit" value="CHANGE">
   </div>
-
 </form>
+<button (click)="delete()">DELETE</button>

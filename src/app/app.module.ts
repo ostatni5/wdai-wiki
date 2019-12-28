@@ -13,6 +13,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddCourseComponent } from './components/add-course/add-course.component';
 import { SearchPipe } from './pipes/search.pipe';
 import { FilterComponent } from './components/filter/filter.component';
+import { DetaliedViewComponent } from './components/detalied-view/detalied-view.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { environment } from 'src/environments/environment';
+import { AngularFireModule} from "@angular/fire";
+import { AngularFireAuthModule} from "@angular/fire/auth";
+import { AdminListComponent } from './components/admin-list/admin-list.component';
+import { EditCourseComponent } from './components/edit-course/edit-course.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +30,12 @@ import { FilterComponent } from './components/filter/filter.component';
     RateComponent,
     AddCourseComponent,
     SearchPipe,
-    FilterComponent
+    FilterComponent,
+    DetaliedViewComponent,
+    LoginComponent,
+    RegisterComponent,
+    AdminListComponent,
+    EditCourseComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +43,9 @@ import { FilterComponent } from './components/filter/filter.component';
     BrowserAnimationsModule,
     MatListModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule
   ],
   providers: [CoursesService],
   bootstrap: [AppComponent]

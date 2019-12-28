@@ -7,6 +7,7 @@ import { Course } from 'src/app/shared/course.model';
   styleUrls: ['./courses-list-element.component.scss']
 })
 export class CoursesListElementComponent implements OnInit {
+  @Input() admin: Boolean;
   @Input() course: Course;
   @Output() deleteCourse = new EventEmitter<string>();
   @Output() rateCourse = new EventEmitter<object>();

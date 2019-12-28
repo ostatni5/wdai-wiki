@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { CoursesService } from 'src/app/services/courses.service';
 import { Course } from 'src/app/shared/course.model';
 import { Filter } from 'src/app/shared/filter';
+import { CoursesService } from 'src/app/services/courses.service';
 
 @Component({
-  selector: 'app-courses-list',
-  templateUrl: './courses-list.component.html',
-  styleUrls: ['./courses-list.component.scss']
+  selector: 'app-admin-list',
+  templateUrl: './admin-list.component.html',
+  styleUrls: ['./admin-list.component.scss']
 })
-export class CoursesListComponent implements OnInit {
+export class AdminListComponent implements OnInit {
+
   courses:Array<Course>
   filter:Filter
   constructor(private coursesService: CoursesService) {    
@@ -21,6 +22,16 @@ export class CoursesListComponent implements OnInit {
   getCourses(){
     this.courses= this.coursesService.getCourses(); 
   }
+  addCourse(course:Course)
+  {
+    this.coursesService.addCourse(course);
+    this.getCourses();
+  }
+  deleteCourse(guid)
+  {
+    this.coursesService.deleteCourse(guid);
+    this.getCourses();
+  }
   rateCourse(obj)
   {
     this.coursesService.rateCourse(obj);
@@ -31,5 +42,4 @@ export class CoursesListComponent implements OnInit {
     this.filter=obj;
     console.log(this.filter);
   }
-
 }

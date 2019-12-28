@@ -1,2 +1,11 @@
 <h1>Wdai WIKI</h1>
-<app-courses-list></app-courses-list>
+<nav>
+    <a [routerLink]="['/dashboard']">dashboard</a>
+    <a *ngIf="email == 'admin@wdai.pl'"[routerLink]="['/admin']">admin</a>
+    <a *ngIf="!email" [routerLink]="['/login']">login</a>
+    <a *ngIf="!email" [routerLink]="['/register']">register</a>
+    <span *ngIf="email">{{email}}</span>
+    <button *ngIf="email" (click)="signOut()">signOut</button>
+   
+</nav>
+<router-outlet></router-outlet>

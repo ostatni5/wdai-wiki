@@ -1,3 +1,3 @@
-<input class="slider" type="range" min="1" max="5" [(ngModel)]="value" step="0.5">
+<input class="slider" type="range" min="1" max="5" [(ngModel)]="value" step="0.5" [disabled]="!showRate">
 <p>{{value}}</p>
-<button (click)="rate()">Rate</button>
+<button *ngIf="showRate" (click)="rate()">Rate</button>

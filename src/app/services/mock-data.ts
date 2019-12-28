@@ -13,9 +13,9 @@ export class MockData{
             "ETCS": 5,
             "semester": 3,
             "type": "projects",
-            "capacity": 116,
-            "rating": 3.9055,
-            "votes": 56,
+            "capacity": 0,
+            "rating": 0,
+            "votes": 0,
             "image": "assets/img/1.png"
         },
         {
