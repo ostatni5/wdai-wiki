@@ -21,6 +21,7 @@ import { AngularFireModule} from "@angular/fire";
 import { AngularFireAuthModule} from "@angular/fire/auth";
 import { AdminListComponent } from './components/admin-list/admin-list.component';
 import { EditCourseComponent } from './components/edit-course/edit-course.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { EditCourseComponent } from './components/edit-course/edit-course.compon
     FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    HttpClientModule,
   ],
   providers: [CoursesService],
   bootstrap: [AppComponent]

@@ -1,13 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Course } from '../shared/course.model';
 import { MockData } from './mock-data';
+import { HttpClient } from '@angular/common/http';
 @Injectable({
     providedIn: 'root'
 })
 export class CoursesService {
+    private url="http://localhost:5500"
+       
+
     private courses
-    constructor() {
-        this.courses = new MockData().Courses as Array<Course>
+    constructor(private http: HttpClient) {
+        this.http.get(this.url+"/courses").subscribe((data)=>{
+            console.log(data);
+            this.courses =  data as Array<Course>;
+        })
+
     }
 
     getCourses(): Array<Course> {
