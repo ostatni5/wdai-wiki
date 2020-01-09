@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Course } from 'src/app/shared/course.model';
 import { Filter } from 'src/app/shared/filter';
 import { CoursesService } from 'src/app/services/courses.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-admin-list',
   templateUrl: './admin-list.component.html',
   styleUrls: ['./admin-list.component.scss']
 })
-export class AdminListComponent implements OnInit {
+export class AdminListComponent implements OnInit,OnDestroy {
 
   courses:Array<Course>
   filter:Filter
+  sub:Subscription[]=[];
   constructor(private coursesService: CoursesService) {    
    }
 
@@ -20,26 +22,29 @@ export class AdminListComponent implements OnInit {
   } 
 
   getCourses(){
-    this.courses= this.coursesService.getCourses(); 
+    this.sub.push(this.coursesService.getCourses().subscribe((data)=>{
+      this.courses = data as Array<Course>;
+    })); 
   }
   addCourse(course:Course)
   {
-    this.coursesService.addCourse(course);
-    this.getCourses();
+    this.sub.push(this.coursesService.addCourse(course).subscribe((data=>{
+      this.getCourses();
+    })));
   }
   deleteCourse(guid)
   {
-    this.coursesService.deleteCourse(guid);
-    this.getCourses();
-  }
-  rateCourse(obj)
-  {
-    this.coursesService.rateCourse(obj);
-    this.getCourses();
+    this.sub.push(this.coursesService.deleteCourse(guid).subscribe((data=>{
+      this.getCourses();
+    })));
+   
   }
   searchCourse(obj:Filter)
   {
     this.filter=obj;
     console.log(this.filter);
+  }
+  ngOnDestroy(){
+    this.sub.forEach(s=> s.unsubscribe())
   }
 }

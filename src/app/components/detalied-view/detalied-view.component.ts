@@ -10,42 +10,62 @@ import { AuthService } from 'src/app/services/auth.service';
     styleUrls: ['./detalied-view.component.scss']
 })
 export class DetaliedViewComponent implements OnInit, OnDestroy {
-    voted:boolean
+    loaded = false;
+    voted: boolean
     registerd: boolean
     user: string;
     @Input() guid: String;
-    course: Course;
+    course = new Course();
     private sub: any;
+    private subC: any;
+    private subR: any;
     constructor(private coursesService: CoursesService, private route: ActivatedRoute, private router: Router, private auth: AuthService) { }
     ngOnInit() {
 
-            this.user = this.auth.currentUser();
-
-
+        this.user = this.auth.currentUser();
         this.sub = this.route.params.subscribe(params => {
             this.guid = params['guid']; // (+) converts string 'id' to a number
-            this.course = this.coursesService.getCourse(this.guid);
+            this.subC = this.coursesService.getCourse(this.guid).subscribe((data) => {
+                console.log("USER", this.user, data)
+                this.course = data as Course;
+
+                this.subR = this.coursesService.isRegisteredOn(this.course.guid, this.auth.currentUser()).subscribe((data: boolean) => {
+                    this.registerd = data;
+                    this.subR.unsubscribe()
+                    this.subR = this.coursesService.votedOn(this.course.guid, this.auth.currentUser()).subscribe((data: boolean) => {
+                        this.voted = data;
+                        this.loaded = true;
+                        this.subR.unsubscribe()
+                    });
+                });               
+            });
             console.log(this.guid)
         });
-        console.log("USER", this.user)
-        this.registerd = this.coursesService.isRegisteredOn(this.course.guid, this.auth.currentUser());
-        this.voted = this.coursesService.votedOn(this.course.guid, this.auth.currentUser());
+
     }
 
     rate(value) {
-        console.log(value)
-        this.coursesService.rateCourse({ value: value, guid: this.course.guid,email:this.auth.currentUser() });
-        this.voted = this.coursesService.votedOn(this.course.guid, this.auth.currentUser());
-        console.log("voted",this.voted)
+        this.subC.unsubscribe();
+        this.subC = this.coursesService.rateCourse({ value: value, guid: this.course.guid, email: this.auth.currentUser() }).subscribe((data)=>{
+            this.subC.unsubscribe();
+            this.subC = this.coursesService.getCourse(this.guid).subscribe((data) => {                
+                this.course = data as Course;
+                this.subC.unsubscribe();
+                
+            });
+        });
+        this.voted = true;
+    }
+
+    registerOn() {
+        this.subC.unsubscribe();
+        this.subC = this.coursesService.registerOnCourse(this.course.guid, this.user).subscribe();
+        this.registerd = true;
+
     }
     ngOnDestroy() {
         this.sub.unsubscribe();
-    }
-    registerOn() {
-        this.coursesService.registerOnCourse(this.course.guid, this.user);
-        this.course = this.coursesService.getCourse(this.guid);
-        this.registerd = this.coursesService.isRegisteredOn(this.course.guid, this.user);
-        console.log(this.coursesService.isRegisteredOn(this.course.guid, this.user))
+        this.subC.unsubscribe();
     }
 
 }

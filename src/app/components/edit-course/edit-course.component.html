@@ -1,5 +1,5 @@
 <h2>Edit course</h2>
-<form ngNativeValidate [formGroup]="editCourseForm" (submit)="onSubmit()">
+<form ngNativeValidate [formGroup]="editCourseForm" (submit)="onSubmit()" *ngIf="loaded">
   <label>Name: <input type="text" formControlName="name" required></label>
   <label>FirstName: <input type="text" formControlName="hostFirstName" required></label>
   <label>LastName: <input type="text" formControlName="hostLastName" required> </label>

@@ -14,44 +14,56 @@ import { AuthService } from 'src/app/services/auth.service';
 export class EditCourseComponent implements OnInit, OnDestroy {
   @Input() guid: String;
   types = Object.keys(CourseType);
+  loaded=false;
   course: Course;
   private sub: any;
+  private subC: any;
   editCourseForm:FormGroup;
 
   constructor(private coursesService: CoursesService, private route: ActivatedRoute, private router: Router, private auth: AuthService) { }
 
-  ngOnInit() {
-    console.log(CourseType)
+  ngOnInit() {    
     this.sub = this.route.params.subscribe(params => {
       this.guid = params['guid']; // (+) converts string 'id' to a number
-      this.course = this.coursesService.getCourse(this.guid);
-      console.log(this.guid)
-      this.editCourseForm=new FormGroup({
-        name: new FormControl(this.course.name, [Validators.required]),
-        hostFirstName: new FormControl(this.course.host.firstName, [Validators.required]),
-        hostLastName: new FormControl(this.course.host.lastName, [Validators.required]),
-        ETCS: new FormControl(this.course.ETCS, [Validators.required, Validators.min(1), Validators.max(12)]),
-        type: new FormControl(this.course.type, [Validators.required]),
-        semester: new FormControl(this.course.semester, [Validators.required, Validators.min(1), Validators.max(7)]),
-        capacity: new FormControl(this.course.capacity, [Validators.required, Validators.min(1), Validators.max(250)]),
-        image: new FormControl(this.course.image, [Validators.required]),
-      });
+      this.subC= this.coursesService.getCourse(this.guid).subscribe((data)=>{
+        this.course = data as Course;
+        console.log(this.course)
+        this.editCourseForm=new FormGroup({
+          name: new FormControl(this.course.name, [Validators.required]),
+          hostFirstName: new FormControl(this.course.host.firstName, [Validators.required]),
+          hostLastName: new FormControl(this.course.host.lastName, [Validators.required]),
+          ETCS: new FormControl(this.course.ETCS, [Validators.required, Validators.min(1), Validators.max(12)]),
+          type: new FormControl(this.course.type, [Validators.required]),
+          semester: new FormControl(this.course.semester, [Validators.required, Validators.min(1), Validators.max(7)]),
+          capacity: new FormControl(this.course.capacity, [Validators.required, Validators.min(1), Validators.max(250)]),
+          image: new FormControl(this.course.image, [Validators.required]),
+        });
+        this.loaded=true;
+        this.subC.unsubscribe();
+    });      
+      
     });
   }
   ngOnDestroy() {
     this.sub.unsubscribe();
+    this.subC.unsubscribe();
   }
 
   onSubmit() {
     // TODO: Use EventEmitter with form value
     console.warn(this.editCourseForm.value);
-    this.coursesService.updateCourse(this.guid,this.editCourseForm.value);
-    this.router.navigate(['/admin']);
+    this.sub.unsubscribe();
+    this.sub=this.coursesService.updateCourse(this.guid,this.editCourseForm.value).subscribe((data)=>{
+      this.router.navigate(['/admin']);
+    });   
 
   }
   delete() {
-    this.coursesService.deleteCourse(this.course.guid);
-    this.router.navigate(['/admin']);
+    this.subC.unsubscribe();
+    this.subC=this.coursesService.deleteCourse(this.course.guid).subscribe((data)=>{
+      this.router.navigate(['/admin']);
+    });
+    
 }
 
 }

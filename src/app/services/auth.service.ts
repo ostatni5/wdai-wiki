@@ -8,15 +8,20 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   email: string;
+  guid: string;
   userData: Observable<firebase.User>;
   constructor(private angularFireAuth: AngularFireAuth, private router: Router) {
     this.userData = angularFireAuth.authState;
-    this.userData.subscribe((userData) => {
+    this.userData.subscribe((userData) => {     
      this.email = userData ? userData.email : null
+     this.guid = userData ? userData.uid : null
     })
   }
   currentUser() {
     return this.email;
+  }
+  currentGuid() {
+    return this.guid;
   }
   signInWithEmailAndPassword(email, password) {
     return this.angularFireAuth.auth.signInWithEmailAndPassword(email, password)
