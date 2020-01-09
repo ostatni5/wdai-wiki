@@ -1,7 +1,55 @@
 var express = require('express');
+var firebaseAdmin = require('firebase-admin');
+var serviceAccount = require("./wdai-wiki-firebase-adminsdk-3918c-d3c5863dd4.json")
+let firebaseConfig = {
+    credential: firebaseAdmin.credential.cert(serviceAccount),
+    apiKey: "AIzaSyBlHEUVoo5FWyhfVlbbDpIjrXqxqESSOHM",
+    authDomain: "wdai-wiki.firebaseapp.com",
+    databaseURL: "https://wdai-wiki.firebaseio.com",
+    projectId: "wdai-wiki",
+    storageBucket: "wdai-wiki.appspot.com",
+    messagingSenderId: "599826869007",
+    appId: "1:599826869007:web:ef0a705025f592113d2c7a",
+    measurementId: "G-628ZYCMVGX"
+}
+firebaseAdmin.initializeApp(firebaseConfig);
+
+var fDb = firebaseAdmin.database();
+
+fDb.ref("users").on("value", function (snapshot) {
+    console.log(snapshot.val());
+}, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+});
+
+function getRole(guid, call) {
+    fDb.ref("users").on("value", function (snapshot) {
+        call(snapshot.val()[guid] ? snapshot.val()[guid].role : null);
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+}
+
+function authorize(req, res, roles, succ, failed) {
+    if (roles.length == 0) return succ();
+    getRole(req.headers['authorization'], (role) => {
+        if (role) {
+            roles.findIndex(e => e == role) > -1 ? succ() : failed(res);
+        } else
+            failed(res)
+    })
+}
+
+function authFail(res) {
+    let err = new Error("Auth Failed");
+    res.status(401);
+    res.send(err)
+}
+
 var app = express();
 var user = require('./password');
-const uri = `mongodb+srv://${user.name}:${user.pass}@cluster2019-yzt3b.mongodb.net/wdai-wiki-database?useUnifiedTopology=true`;
+app.use(express.json()); // to support JSON-encoded bodies
+const uri = `mongodb+srv://${user.name}:${user.pass}@cluster2019-yzt3b.mongodb.net/wdai-wiki-database?retryWrites=true&w=majority`;
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 mongoose.connect(uri, {
@@ -19,7 +67,7 @@ var Person = new Schema({
     lastName: String,
 });
 
-var Course = new Schema({
+var CourseSchema = new Schema({
     index: Number,
     guid: String,
     name: String,
@@ -34,39 +82,137 @@ var Course = new Schema({
     registeredUsers: []
 });
 
-mongoose.model('courses', Course, 'courses');
+var Course = mongoose.model('Course', CourseSchema, 'courses');
 
-var Courses = mongoose.model('courses');
+var Courses = mongoose.model('Course');
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "*"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "*");
     next();
 });
 
 
 app.get('/courses', function (req, res) {
-    getCourses((err, data) => {
-        res.send(data);
-    });
+
+    authorize(req, res, ["admin","user"],
+    () => {
+        getCourses((err, data) => {
+            res.send(data);
+        });
+    },
+    authFail)
 
 });
-app.post('/', function (req, res) {
-    console.log("Otrzymano żądanie POST dla strony głównej");
-    res.send('Hello POST');
+app.get('/course/:guid', function (req, res) {
+
+    authorize(req, res, ["admin","user"],
+    () => {
+        getCourse(req.params.guid, (err, data) => {
+            res.send(data);
+        });
+    },
+    authFail)
 });
-app.delete('/usun', function (req, res) {
-    console.log("Otrzymano żądanie DELETE dla strony /usun");
-    res.send('Hello DELETE');
+app.post('/course', function (req, res) {
+
+    authorize(req, res, ["admin"],
+        () => {
+            console.log("ADD COURSE");
+            addCourse(req.body, (err) => {
+                if (!err) err = {
+                    msg: "ADDED"
+                }
+                res.send(err);
+            })
+        },
+        authFail)
+
 });
-app.put('/user_list', function (req, res) {
-    console.log("Otrzymano żądanie PUT dla strony /user_list");
-    res.send('Lista użytkowników');
+app.delete('/course/:guid', function (req, res) {
+    authorize(req, res, ["admin"],
+        () => {
+            console.log("DELETE COURSE");
+            console.log(req.params.guid);
+            deleteCourse(req.params.guid, (err) => {
+                if (!err) err = {
+                    msg: "DELETED"
+                }
+                res.send(err);
+            })
+        },
+        authFail)
 });
-app.get('/ab*cd', function (req, res) {
-    console.log("Otrzymano żądanie GET dla strony /ab*cd");
-    res.send('Wzorzec strony dopasowany');
+
+app.put('/course/:guid', function (req, res) {
+    authorize(req, res, ["admin"],
+    () => {
+        console.log("PUT COURSE");
+        console.log(req.params.guid);
+        updateCourse(req.params.guid, req.body, (err) => {
+            if (!err) err = {
+                msg: "PUTED"
+            }
+            res.send(err);
+        })
+    },
+    authFail)
+    
 });
+app.patch('/course/:guid/rate', function (req, res) {
+    authorize(req, res, ["admin","user"],
+    () => {
+        console.log("RATE COURSE");
+        console.log(req.params.guid);
+        rateCourse(req.params.guid, req.body, (err) => {
+            if (!err) err = {
+                msg: "RATED"
+            }
+            res.send(err);
+        })
+    },
+    authFail)
+    
+});
+app.patch('/course/:guid/register', function (req, res) {
+    authorize(req, res, ["admin","user"],
+    () => {
+        console.log("REGISTER ON COURSE");
+        console.log(req.params.guid);
+        registerOnCourse(req.params.guid, req.body.email, (err) => {
+            if (!err) err = {
+                msg: "REGISTERED"
+            }
+            res.send(err);
+        })
+    },
+    authFail)
+
+});
+app.get('/course/:guid/registered/:email', function (req, res) {
+    authorize(req, res, ["admin","user"],
+    () => {
+        isRegisteredOn(req.params.guid, req.params.email, (registerd, course) => {
+            console.log("REGISTERD ", registerd)
+            res.send(registerd);
+        });
+    },
+    authFail)
+
+});
+app.get('/course/:guid/voted/:email', function (req, res) {
+
+    authorize(req, res, ["admin","user"],
+    () => {
+        votedOn(req.params.guid, req.params.email, (voted, course) => {
+            console.log("VOTED ", voted)
+            res.send(voted);
+        });
+    },
+    authFail)
+});
+
 var server = app.listen(5500, function () {
     var host = server.address().address
     var port = server.address().port;
@@ -79,17 +225,17 @@ var server = app.listen(5500, function () {
 
 
 function getCourses(call) {
-    Courses.find({}, function (err, data) {
-        console.log(err, data, data.length);
+    Courses.find({}).sort("name").exec(function (err, data) {
+        //console.log(err, data, data.length);
         call(err, data);
     });
 }
 
 function getCourse(guid, call) {
-    Courses.find({
+    Courses.findOne({
         guid: guid
     }, function (err, data) {
-        console.log(err, data, data.length);
+        //console.log(err, data, data.length);
         call(err, data);
     });
 }
@@ -108,7 +254,7 @@ function addCourse(course, call) {
     })
 }
 
-function deleteCourse(guid) {
+function deleteCourse(guid, call) {
     Courses.deleteOne({
         guid: guid
     }, function (err) {
@@ -117,8 +263,8 @@ function deleteCourse(guid) {
     });
 }
 
-function updateCourse(guid, newData) {
-    Courses.update({
+function updateCourse(guid, newData, call) {
+    Courses.updateOne({
         guid: guid
     }, newData, function (err) {
         if (err) throw err;
@@ -126,67 +272,60 @@ function updateCourse(guid, newData) {
     });
 }
 
-function rateCourse(obj) {
-    console.log(obj)
-    if (this.isRegisteredOn(obj.guid, obj.email)) {
-        let c = this.getCourse(obj.guid);
-        if (!this.votedOn(obj.guid, obj.email)) {
-            c.rating = ((c.rating * c.votes) + obj.value) / ++c.votes;
-            c.registeredUsers.filter(user => user.email === obj.email)[0].vote = obj.value;
-        } else
-            console.error("Arleady voted", obj)
-    }
-
-}
-
-function registerOnCourse(guid, email) {
-    let index = this.getIndex(guid);
-    if (index > -1) {
-        if (this.isRegisteredOn(guid, email)) {
-            console.error("Arleady registered", guid, email)
-            return;
-        }
-        if (this.courses[index].capacity <= 0) {
-            console.error("No free slots", guid, email)
-            alert("No free slots")
-        } else {
-            this.courses[index].registeredUsers.push({
-                email: email,
-                vote: null
+function rateCourse(guid, obj, call) {
+    isRegisteredOn(guid, obj.email, (registered, course) => {
+        if (registered) {
+            votedOn(guid, obj.email, (voted, course) => {
+                if (!voted) {
+                    course.rating = ((course.rating * course.votes) + obj.value) / ++course.votes;
+                    course.registeredUsers.find(user => user.email === obj.email).vote = obj.value;
+                    updateCourse(guid, course, call)
+                }
             })
-            this.courses[index].capacity--;
-            console.log("Registered", guid, email)
         }
-    }
+    })
 
 }
 
-function isRegisteredOn(guid, email) {
-    if (!email) console.error("Wrong email", email);
-    let index = this.getIndex(guid);
-    if (index > -1) {
-        if (!this.courses[index].registeredUsers) this.courses[index].registeredUsers = [];
-        else console.warn("Registerd", this.courses[index].registeredUsers);
-        return this.courses[index].registeredUsers.findIndex(user => user.email === email) >= 0 ? true : false;
-    } else
-        return false;
+function registerOnCourse(guid, email, call) {
+
+    isRegisteredOn(guid, email, (registered, course) => {
+        if (!registered) {
+            if (course.capacity <= 0) {
+                console.error("No free slots", guid, email);
+            } else {
+                course.registeredUsers.push({
+                    email: email,
+                    vote: null
+                })
+                course.capacity--;
+                console.error("Register", guid, email);
+                updateCourse(guid, course, call);
+            }
+        } else
+            console.error("Arleady registered", guid, email);
+    })
+
 }
 
-function votedOn(guid, email) {
-    let c = this.getCourse(guid);
-    let v = c.registeredUsers.filter(user => user.email === email)[0];
-    if (!c.registeredUsers.filter(user => user.email === email)[0]) return false;
-    else
-        v = v.vote;
-    console.log("Vote", v);
-    return v !== null;
+function isRegisteredOn(guid, email, call) {
+    getCourse(guid, (err, data) => {
+        if (!err) {
+            call(data.registeredUsers.findIndex(user => user.email === email) >= 0 ? true : false, data);
+        } else
+            console.error(err);
+    })
 }
 
-
-function getIndex(guid) {
-    let index = this.courses.findIndex(course => course.guid === guid)
-    if (index === -1) {
-        console.error("No such course", guid)
-    }
-    return index;
+function votedOn(guid, email, call) {
+    getCourse(guid, (err, data) => {
+        if (!err) {
+            let row = data.registeredUsers.find(user => user.email === email)
+            if (row)
+                call(row.vote != null, data);
+            else
+                call(false, data);
+        } else
+            console.error(err);
+    })
 }
