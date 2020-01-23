@@ -12,10 +12,20 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       console.warn("GUARD",this.auth.currentUser())
-    if (this.auth.currentUser() ) return true;
-    this.router.navigate(['/login']);
-    
-    return false;
+      return new Promise<boolean>((resolve) => {
+        let sub = this.auth.userData.subscribe((userData) => {
+          let email = userData ? userData.email : null
+          let guid = userData ? userData.uid : null
+          console.log(email)
+          if (email) resolve(true);
+          else
+          {
+            this.router.navigate(['/login']);
+            resolve(false);
+          }
+          sub.unsubscribe()
+        })
+      })
   }
 
 }

@@ -11,10 +11,22 @@ export class AuthAdminGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      console.warn("GUARD ADMIN",this.auth.currentUser())
-      if (this.auth.currentUser() == "admin@wdai.pl" ) return true;
-      this.router.navigate(['/login']);      
-      return false;
+    console.warn("GUARD ADMIN", this.auth.currentUser())
+    return new Promise<boolean>((resolve) => {
+      let sub = this.auth.userData.subscribe((userData) => {
+        let email = userData ? userData.email : null
+        let guid = userData ? userData.uid : null
+        console.log(email)
+        if (email == "admin@wdai.pl") resolve(true);
+        else
+        {
+          this.router.navigate(['/login']);
+          resolve(false);
+        }
+        sub.unsubscribe()
+      })
+    })
+
   }
-  
+
 }

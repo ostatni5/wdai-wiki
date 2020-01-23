@@ -2,3 +2,18 @@
 .list{
     padding: 20px;
 }
+:host{
+    padding: 20px;
+    display: block;
+
+}
+.paginationControl{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.paginationControl{
+    label{
+        margin-right: 60px;
+    }
+}

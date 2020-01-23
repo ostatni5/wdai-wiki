@@ -11,11 +11,11 @@
         <p>Votes: {{course.votes}}</p>
     </div>
     <div class="actions">
-        <button *ngIf="!registerd && course.capacity > 0" (click)="registerOn()">Register</button>
+        <button  class="button" *ngIf="!registerd && course.capacity > 0" (click)="registerOn()">Register</button>
         <app-rate *ngIf="registerd" [initValue]="course.rating" (rated)="rate($event)" [showRate]="!voted"></app-rate>
     </div>
 </Div>
-<a [routerLink]="['/dashboard']">BACK</a>
+<a class="button" [routerLink]="['/dashboard']">BACK</a>
 <div>
 
 </div>

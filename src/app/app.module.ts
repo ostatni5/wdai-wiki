@@ -22,6 +22,7 @@ import { AngularFireAuthModule} from "@angular/fire/auth";
 import { AdminListComponent } from './components/admin-list/admin-list.component';
 import { EditCourseComponent } from './components/edit-course/edit-course.component';
 import { HttpClientModule } from '@angular/common/http';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { HttpClientModule } from '@angular/common/http';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     HttpClientModule,
+    NgxPaginationModule
   ],
   providers: [CoursesService],
   bootstrap: [AppComponent]
