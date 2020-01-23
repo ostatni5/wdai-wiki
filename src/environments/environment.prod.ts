@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  serverUrl:"https://wdai-wiki.herokuapp.com",
   firebaseConfig : {
     apiKey: "AIzaSyBlHEUVoo5FWyhfVlbbDpIjrXqxqESSOHM",
     authDomain: "wdai-wiki.firebaseapp.com",
