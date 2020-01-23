@@ -32,9 +32,11 @@ export class AddCourseComponent implements OnInit {
   onSubmit() {
     // TODO: Use EventEmitter with form value
     console.warn(this.addCourseForm.value);
+   
     let course= new Course(this.addCourseForm.value);
     console.log("Corss",course);
     this.addCourse.emit(course);
+    this.addCourseForm.reset();
     
   }
 
