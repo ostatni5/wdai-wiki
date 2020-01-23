@@ -12,8 +12,8 @@
   </label>
   <label>Capacity: <input type="number" formControlName="capacity" required min="1" max="250"></label>
   <label>Image: <input type="text" formControlName="image" required></label>
-  <div class="button">
-    <input type="submit" value="CHANGE">
+  <div class="buttonDiv">
+    <input class="button" type="submit" value="CHANGE">
   </div>
 </form>
-<button (click)="delete()">DELETE</button>
+<button class="button button-3" (click)="delete()">DELETE</button>

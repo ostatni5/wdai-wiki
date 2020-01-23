@@ -17,13 +17,8 @@ input{
 select{
     width: 156px;
 }
-[type="submit"]{
-    
-   
-    height: 30px;
-    
-}
-.button{
+
+.buttonDiv{
     display: flex;
     justify-content: center;
     flex-basis: 100%;

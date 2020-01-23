@@ -10,6 +10,8 @@ import { Observable, Subscription } from 'rxjs';
   styleUrls: ['./courses-list.component.scss']
 })
 export class CoursesListComponent implements OnInit,OnDestroy {
+  p= 1;
+  items=4;
   courses:Array<Course>
   filter:Filter;
   sub:Subscription;

@@ -10,7 +10,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./admin-list.component.scss']
 })
 export class AdminListComponent implements OnInit,OnDestroy {
-
+  p= 1;
+  items = 4;
   courses:Array<Course>
   filter:Filter
   sub:Subscription[]=[];

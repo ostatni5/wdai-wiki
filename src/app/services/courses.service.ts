@@ -52,12 +52,12 @@ export class CoursesService {
     }
 
     setHeaders(): object {
+        console.log(this.auth.currentToken()) 
         this.httpOptions.headers= new HttpHeaders({
             'Content-Type':  'application/json',
-            'Authorization': this.auth.currentGuid()
+            'Authorization': this.auth.currentToken()
           })
-        console.log("GUID",this.auth.currentGuid())
-        console.log("GUID",this.httpOptions)
+          console.log(this.httpOptions.headers)       
         return this.httpOptions;
     }
     

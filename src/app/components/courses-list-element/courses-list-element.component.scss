@@ -16,9 +16,9 @@ img{
 }
 :host:nth-child(2n)
 {
-    background-color: rgba($color: #000, $alpha: .1);
+    background-color: rgba($color: #4caf50, $alpha: .1);
 }
 :host:nth-child(2n+1)
 {
-    background-color: rgba(223, 55, 223, 0.171);
+    background-color:  rgba($color: #4caf50, $alpha: .3);
 }

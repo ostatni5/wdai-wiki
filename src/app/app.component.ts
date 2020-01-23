@@ -27,6 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
   signOut() {
+    this.email = null;
     this.auth.signOut();
     this.router.navigate(['']);
   }

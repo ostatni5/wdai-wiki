@@ -14,6 +14,8 @@ let firebaseConfig = {
 }
 firebaseAdmin.initializeApp(firebaseConfig);
 
+
+
 var fDb = firebaseAdmin.database();
 
 fDb.ref("users").on("value", function (snapshot) {
@@ -31,18 +33,32 @@ function getRole(guid, call) {
 }
 
 function authorize(req, res, roles, succ, failed) {
+    console.log("Auth")
     if (roles.length == 0) return succ();
-    getRole(req.headers['authorization'], (role) => {
-        if (role) {
-            roles.findIndex(e => e == role) > -1 ? succ() : failed(res);
-        } else
+    if (req.headers['authorization'])
+        firebaseAdmin.auth().verifyIdToken(req.headers['authorization'])
+        .then(function (decodedToken) {
+            if (roles.findIndex(e => e == "user") > -1) {
+                succ()
+            } else
+                getRole(decodedToken.user_id, (role) => {
+                    if (role) {
+                        roles.findIndex(e => e == role) > -1 ? succ() : failed(res);
+                    } else
+                        failed(res)
+                })
+        }).catch(function (error) {
+            console.log(error)
             failed(res)
-    })
+        });
+    else
+        failed(res)
+
 }
 
 function authFail(res) {
     let err = new Error("Auth Failed");
-    res.status(401);
+    res.status(403);
     res.send(err)
 }
 
@@ -93,27 +109,35 @@ app.use(function (req, res, next) {
     next();
 });
 
+// app.post('/login', function (req, res) {
+
+
+//     res.status(403)
+//     res.send("err")
+
+// });
+
 
 app.get('/courses', function (req, res) {
-
-    authorize(req, res, ["admin","user"],
-    () => {
-        getCourses((err, data) => {
-            res.send(data);
-        });
-    },
-    authFail)
+    console.log("/courses")
+    authorize(req, res, ["admin", "user"],
+        () => {
+            getCourses((err, data) => {
+                res.send(data);
+            });
+        },
+        authFail)
 
 });
 app.get('/course/:guid', function (req, res) {
 
-    authorize(req, res, ["admin","user"],
-    () => {
-        getCourse(req.params.guid, (err, data) => {
-            res.send(data);
-        });
-    },
-    authFail)
+    authorize(req, res, ["admin", "user"],
+        () => {
+            getCourse(req.params.guid, (err, data) => {
+                res.send(data);
+            });
+        },
+        authFail)
 });
 app.post('/course', function (req, res) {
 
@@ -147,70 +171,70 @@ app.delete('/course/:guid', function (req, res) {
 
 app.put('/course/:guid', function (req, res) {
     authorize(req, res, ["admin"],
-    () => {
-        console.log("PUT COURSE");
-        console.log(req.params.guid);
-        updateCourse(req.params.guid, req.body, (err) => {
-            if (!err) err = {
-                msg: "PUTED"
-            }
-            res.send(err);
-        })
-    },
-    authFail)
-    
+        () => {
+            console.log("PUT COURSE");
+            console.log(req.params.guid);
+            updateCourse(req.params.guid, req.body, (err) => {
+                if (!err) err = {
+                    msg: "PUTED"
+                }
+                res.send(err);
+            })
+        },
+        authFail)
+
 });
 app.patch('/course/:guid/rate', function (req, res) {
-    authorize(req, res, ["admin","user"],
-    () => {
-        console.log("RATE COURSE");
-        console.log(req.params.guid);
-        rateCourse(req.params.guid, req.body, (err) => {
-            if (!err) err = {
-                msg: "RATED"
-            }
-            res.send(err);
-        })
-    },
-    authFail)
-    
+    authorize(req, res, ["admin", "user"],
+        () => {
+            console.log("RATE COURSE");
+            console.log(req.params.guid);
+            rateCourse(req.params.guid, req.body, (err) => {
+                if (!err) err = {
+                    msg: "RATED"
+                }
+                res.send(err);
+            })
+        },
+        authFail)
+
 });
 app.patch('/course/:guid/register', function (req, res) {
-    authorize(req, res, ["admin","user"],
-    () => {
-        console.log("REGISTER ON COURSE");
-        console.log(req.params.guid);
-        registerOnCourse(req.params.guid, req.body.email, (err) => {
-            if (!err) err = {
-                msg: "REGISTERED"
-            }
-            res.send(err);
-        })
-    },
-    authFail)
+    authorize(req, res, ["admin", "user"],
+        () => {
+            console.log("REGISTER ON COURSE");
+            console.log(req.params.guid);
+            registerOnCourse(req.params.guid, req.body.email, (err) => {
+                if (!err) err = {
+                    msg: "REGISTERED"
+                }
+                res.send(err);
+            })
+        },
+        authFail)
 
 });
 app.get('/course/:guid/registered/:email', function (req, res) {
-    authorize(req, res, ["admin","user"],
-    () => {
-        isRegisteredOn(req.params.guid, req.params.email, (registerd, course) => {
-            console.log("REGISTERD ", registerd)
-            res.send(registerd);
-        });
-    },
-    authFail)
+    authorize(req, res, ["admin", "user"],
+        () => {
+            isRegisteredOn(req.params.guid, req.params.email, (registerd, course) => {
+                console.log("REGISTERD ", registerd)
+                res.send(registerd);
+            });
+        },
+        authFail)
 
 });
 app.get('/course/:guid/voted/:email', function (req, res) {
 
-    authorize(req, res, ["admin","user"],
-    () => {
-        votedOn(req.params.guid, req.params.email, (voted, course) => {
-            console.log("VOTED ", voted)
-            res.send(voted);
-        });
-    },
-    authFail)
+    authorize(req, res, ["admin", "user"],
+        () => {
+            votedOn(req.params.guid, req.params.email, (voted, course) => {
+                console.log("VOTED ", voted)
+                res.send(voted);
+            });
+        },
+        authFail)
 });
 
 var server = app.listen(5500, function () {
