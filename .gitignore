@@ -46,3 +46,4 @@ testem.log
 Thumbs.db
 
 # password.js
+.firebase

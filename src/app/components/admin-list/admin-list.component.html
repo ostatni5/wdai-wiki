@@ -8,7 +8,7 @@
 </div>
 <div class="list">
    <app-courses-list-element [admin]="true" class="element"  *ngFor="let course
-   of courses | search:filter | paginate: { itemsPerPage: 10, currentPage: p,itemsPerPage: items } " [course]="course"
+   of courses | search:filter | paginate: {  currentPage: p,itemsPerPage: items } " [course]="course"
    (deleteCourse)="deleteCourse($event)" ></app-courses-list-element> 
 </div>
 

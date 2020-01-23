@@ -3,11 +3,12 @@ import { Course } from '../shared/course.model';
 import { MockData } from './mock-data';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from './auth.service';
+import { environment } from 'src/environments/environment';
 @Injectable({
     providedIn: 'root'
 })
 export class CoursesService {
-    private url="http://localhost:5500";
+    private url= environment.serverUrl;
     private httpOptions = {
         headers: new HttpHeaders({
           'Content-Type':  'application/json',
@@ -52,12 +53,11 @@ export class CoursesService {
     }
 
     setHeaders(): object {
-        console.log(this.auth.currentToken()) 
         this.httpOptions.headers= new HttpHeaders({
             'Content-Type':  'application/json',
             'Authorization': this.auth.currentToken()
           })
-          console.log(this.httpOptions.headers)       
+               
         return this.httpOptions;
     }
     

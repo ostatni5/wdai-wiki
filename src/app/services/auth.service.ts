@@ -3,12 +3,13 @@ import { Observable } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private url = "http://localhost:5500";
+  private url = environment.serverUrl;
   email: string;
   guid: string;
   token: string;
@@ -53,8 +54,7 @@ export class AuthService {
       })
   }
   async getToken(){
-    this.token= await this.angularFireAuth.auth.currentUser.getIdToken(true);
-    console.log("TOKEN",this.token)
+    this.token= await this.angularFireAuth.auth.currentUser.getIdToken(true);  
     localStorage.setItem('token', JSON.stringify(this.token));
     this.router.navigate(['/dashboard']);
     return this.token;
