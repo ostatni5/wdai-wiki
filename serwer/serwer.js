@@ -237,7 +237,7 @@ app.get('/course/:guid/voted/:email', function (req, res) {
         authFail)
 });
 
-var server = app.listen(5500, function () {
+var server = app.listen(process.env.PORT || 5500, function () {
     var host = server.address().address
     var port = server.address().port;
     console.log("Przykładowa aplikacja nasłuchuje na http://%s:%s", host, port)

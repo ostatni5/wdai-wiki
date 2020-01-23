@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  serverUrl:"http://localhost:5500",
   firebaseConfig : {
     apiKey: "AIzaSyBlHEUVoo5FWyhfVlbbDpIjrXqxqESSOHM",
     authDomain: "wdai-wiki.firebaseapp.com",
