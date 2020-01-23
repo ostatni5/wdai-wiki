@@ -288,6 +288,10 @@ function deleteCourse(guid, call) {
 }
 
 function updateCourse(guid, newData, call) {
+    newData.host ={
+        firstName:newData.hostFirstName,
+        lastName:newData.hostLastName
+    }
     Courses.updateOne({
         guid: guid
     }, newData, function (err) {
