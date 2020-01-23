@@ -28,7 +28,6 @@ export class AuthService {
     return this.guid;
   }
   currentToken() {
-    console.log(this.token || JSON.parse(localStorage.getItem("token")));
     return this.token || JSON.parse(localStorage.getItem("token"))  ;
   }
   signInWithEmailAndPassword(email, password) {
