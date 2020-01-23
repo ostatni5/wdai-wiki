@@ -13,16 +13,16 @@ export class SearchPipe implements PipeTransform {
         if (!filter) return courses;
         let newCourses = courses;
         let tempArr = [];
-        if (this.criteraExist(filter.name)) {
-            console.log("Name")
-            filter.name.forEach(name => {                
+        if (this.criteraExist(filter.name)) { 
+            console.log(filter.name)          
+            filter.name.forEach(name => { 
                 name = name.toLowerCase();
                 tempArr = tempArr.concat(newCourses.filter(course => {
                     return course.name.toLowerCase().includes(name);
                 }))
 
             })
-            newCourses = tempArr;
+            newCourses = [...new Set(tempArr)];
             tempArr = [];
         }
 
@@ -33,7 +33,7 @@ export class SearchPipe implements PipeTransform {
                     return course.ETCS == ETCS;
                 }))
             })
-            newCourses = tempArr;
+            newCourses = [...new Set(tempArr)];
             tempArr = [];
         }
 
@@ -44,7 +44,7 @@ export class SearchPipe implements PipeTransform {
                     return course.semester == semester;
                 }))
             })
-            newCourses = tempArr;
+            newCourses = [...new Set(tempArr)];
             tempArr = [];
         }
         if (this.criteraExist(filter.rate)) {
@@ -54,15 +54,18 @@ export class SearchPipe implements PipeTransform {
                     return course.rating == rate || Math.round(course.rating *2)/2 == rate;
                 }))
             })
-            newCourses = tempArr;
+            newCourses = [...new Set(tempArr)];
             tempArr = [];
         }
 
         return newCourses;
     }
 
-    criteraExist(c: Array<any>) {
-        c = c.filter(e => e)
+    criteraExist(c:Array<any>) {      
+        let tmp = [...c]
+        c.length=0;
+        tmp.filter(e => {return Boolean(e);}).forEach(e =>c.push(e))  
+        
         return c && c.length > 0;
     }
 }
