@@ -1,7 +1,7 @@
 var express = require("express");
 var firebaseAdmin = require("firebase-admin");
 var serviceAccount = process.env.ACCOUNT
-    ? JSON.parse(process.env.ACCOUNT)
+    ? JSON.parse(new Buffer(process.env.ACCOUNT, "base64").toString("utf8"))
     : require("./wdai-wiki-firebase-adminsdk-3918c-d3c5863dd4.json");
 
 let firebaseConfig = {
