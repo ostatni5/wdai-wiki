@@ -1,23 +1,23 @@
-img{
-    width: 150px;
-    object-fit: contain;
+img {
+	width: 150px;
+	object-fit: contain;
 }
-.detalis{
-    display: flex;
-    margin-bottom: 50px;
-    justify-content: space-between;
+.detalis {
+	display: flex;
+	margin-bottom: 50px;
+	justify-content: space-between;
 }
-.detalis-text{
-   margin-left: 50px;
+.detalis-text {
+	margin-left: 50px;
 }
-.actions{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
+.actions {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
 }
-:host{
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
+:host {
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
 }

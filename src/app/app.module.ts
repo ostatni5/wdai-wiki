@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoursesListComponent } from './components/courses-list/courses-list.component';
 import { CoursesListElementComponent } from './components/courses-list-element/courses-list-element.component';
-import {MatListModule} from '@angular/material/list'
+import { MatListModule } from '@angular/material/list';
 import { CoursesService } from './services/courses.service';
 import { RateComponent } from './components/rate/rate.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,41 +17,41 @@ import { DetaliedViewComponent } from './components/detalied-view/detalied-view.
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { environment } from 'src/environments/environment';
-import { AngularFireModule} from "@angular/fire";
-import { AngularFireAuthModule} from "@angular/fire/auth";
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AdminListComponent } from './components/admin-list/admin-list.component';
 import { EditCourseComponent } from './components/edit-course/edit-course.component';
 import { HttpClientModule } from '@angular/common/http';
-import {NgxPaginationModule} from 'ngx-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    CoursesListComponent,
-    CoursesListElementComponent,
-    RateComponent,
-    AddCourseComponent,
-    SearchPipe,
-    FilterComponent,
-    DetaliedViewComponent,
-    LoginComponent,
-    RegisterComponent,
-    AdminListComponent,
-    EditCourseComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatListModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule,
-    HttpClientModule,
-    NgxPaginationModule
-  ],
-  providers: [CoursesService],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		CoursesListComponent,
+		CoursesListElementComponent,
+		RateComponent,
+		AddCourseComponent,
+		SearchPipe,
+		FilterComponent,
+		DetaliedViewComponent,
+		LoginComponent,
+		RegisterComponent,
+		AdminListComponent,
+		EditCourseComponent
+	],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		BrowserAnimationsModule,
+		MatListModule,
+		FormsModule,
+		ReactiveFormsModule,
+		AngularFireModule.initializeApp(environment.firebaseConfig),
+		AngularFireAuthModule,
+		HttpClientModule,
+		NgxPaginationModule
+	],
+	providers: [CoursesService],
+	bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

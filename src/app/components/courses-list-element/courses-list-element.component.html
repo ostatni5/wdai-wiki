@@ -1,10 +1,7 @@
-
-<h2>{{course.name | titlecase }}</h2>
+<h2>{{ course.name | titlecase }}</h2>
 <Div class="detalis">
-  <img class="detalis-image" [src]="course.image" alt="imagefor course">
-  <a class="button " *ngIf="!admin" [routerLink]="['/course', course.guid]">DETALIS</a>
-  <a  class="button button-2" *ngIf="admin" [routerLink]="['/edit', course.guid]">EDIT</a>
-  <button  class="button button-3" *ngIf="admin" (click)="delete()">Delete</button> 
-
+	<img class="detalis-image" [src]="course.image" alt="imagefor course" />
+	<a class="button" *ngIf="!admin" [routerLink]="['/course', course.guid]">DETALIS</a>
+	<a class="button button-2" *ngIf="admin" [routerLink]="['/edit', course.guid]">EDIT</a>
+	<button class="button button-3" *ngIf="admin" (click)="delete()">Delete</button>
 </Div>
-

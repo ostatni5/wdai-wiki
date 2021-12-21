@@ -3,14 +3,18 @@
 <h2>ADMIN List of courses</h2>
 <app-filter (searchCourse)="searchCourse($event)"></app-filter>
 <div class="paginationControl">
-   <pagination-controls (pageChange)="p = $event"></pagination-controls> 
-   <label>Elements on page <input type="number" [(ngModel)]="items" min="1" step="1"></label>
+	<pagination-controls (pageChange)="p = $event"></pagination-controls>
+	<label>Elements on page <input type="number" [(ngModel)]="items" min="1" step="1" /></label>
 </div>
 <div class="list">
-   <app-courses-list-element [admin]="true" class="element"  *ngFor="let course
-   of courses | search:filter | paginate: {  currentPage: p,itemsPerPage: items } " [course]="course"
-   (deleteCourse)="deleteCourse($event)" ></app-courses-list-element> 
+	<app-courses-list-element
+		[admin]="true"
+		class="element"
+		*ngFor="
+			let course of courses
+				| search: filter
+				| paginate: { currentPage: p, itemsPerPage: items }
+		"
+		[course]="course"
+		(deleteCourse)="deleteCourse($event)"></app-courses-list-element>
 </div>
-
-
- 

@@ -1,0 +1,10 @@
+#ignore npm files
+node_modules/
+
+#ignore auto generated config files
+package.json
+package-lock.json
+tsconfig.json
+.github/
+.notebook/
+.vscode/

@@ -1,11 +1,10 @@
 <h1>Wdai WIKI</h1>
 <nav>
-    <a class="button" *ngIf="email" [routerLink]="['/dashboard']">dashboard</a>
-    <a class="button" *ngIf="email == 'admin@wdai.pl'" [routerLink]="['/admin']">admin</a>
-    <a class="button" *ngIf="!email" [routerLink]="['/login']">login</a>
-    <a class="button" *ngIf="!email" [routerLink]="['/register']">register</a>
-    <span *ngIf="email">{{email}}</span>
-    <button class="button button-2" *ngIf="email" (click)="signOut()">signOut</button>
-
+	<a class="button" *ngIf="email" [routerLink]="['/dashboard']">dashboard</a>
+	<a class="button" *ngIf="email == 'admin@wdai.pl'" [routerLink]="['/admin']">admin</a>
+	<a class="button" *ngIf="!email" [routerLink]="['/login']">login</a>
+	<a class="button" *ngIf="!email" [routerLink]="['/register']">register</a>
+	<span *ngIf="email">{{ email }}</span>
+	<button class="button button-2" *ngIf="email" (click)="signOut()">signOut</button>
 </nav>
 <router-outlet></router-outlet>
